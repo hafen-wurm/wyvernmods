@@ -5,8 +5,8 @@ version "2.0"
 
 repositories {
     mavenCentral()
-    maven { url "http://jcenter.bintray.com" }
-    maven { url "http://gotti.no-ip.org/maven/repository" }
+    maven { url "https://jcenter.bintray.com" }
+    maven { url "https://gotti.no-ip.org/maven/repository" }
     maven { url 'https://jitpack.io' }
 }
 
@@ -14,7 +14,7 @@ dependencies {
     compile 'org.gotti.wurmunlimited:server-modlauncher:0.43'
     compile 'com.github.Sindusk:sindusklibrary:v2.3'
     compile 'com.github.bdew-wurm:bdew_server_mod_tools:v1.0.0'
-    compile 'com.github.Sindusk:DiscordRelay:v1.2'
+    compile 'com.github.hafen-wurm:DiscordRelay:v3.1'
     compile 'com.github.Sindusk:DUSKombat:v1.0'
     compile 'com.github.Sindusk:TreasureHunting:1.1.4'
 }
