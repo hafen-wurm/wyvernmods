@@ -90,7 +90,9 @@ public class QualityOfLife {
             CtClass ctAction = classPool.get("com.wurmonline.server.behaviours.Action");
             CtClass ctCreature = classPool.get("com.wurmonline.server.creatures.Creature");
             CtClass ctItem = classPool.get("com.wurmonline.server.items.Item");
+            CtClass ctTilePos = classPool.get("com.wurmonline.math.TilePos");
             CtClass ctCaveWallBehaviour = classPool.get("com.wurmonline.server.behaviours.CaveWallBehaviour");
+            CtClass ctCaveTileBehaviour = classPool.get("com.wurmonline.server.behaviours.CaveTileBehaviour");
             CtClass[] params1 = {
                     ctAction,
                     ctCreature,
@@ -104,12 +106,37 @@ public class QualityOfLife {
                     CtClass.shortType,
                     CtClass.floatType
             };
+            CtClass[] mineParams = {
+                    ctAction,
+                    ctCreature,
+                    ctItem,
+                    CtClass.intType,
+                    CtClass.intType,
+                    CtClass.shortType,
+                    CtClass.floatType,
+                    CtClass.intType,
+                    ctTilePos
+            };
+            CtClass[] flattenParams = {
+                    ctCreature,
+                    ctItem,
+                    CtClass.intType,
+                    CtClass.intType,
+                    CtClass.intType,
+                    CtClass.floatType,
+                    ctAction,
+                    CtClass.intType
+            };
+            String flattenDesc = Descriptor.ofMethod(CtClass.booleanType, flattenParams);
+            String mineDesc = Descriptor.ofMethod(CtClass.booleanType, mineParams);
             String desc1 = Descriptor.ofMethod(CtClass.booleanType, params1);
             if (WyvernMods.mineCaveToVehicle) {
                 Util.setReason("Allow players to mine directly into vehicles.");
                 replace = "$_ = null;"
                         + QualityOfLife.class.getName() + ".vehicleHook(performer, $0);";
                 Util.instrumentDescribed(thisClass, ctCaveWallBehaviour, "action", desc1, "putItemInfrontof", replace);
+                Util.instrumentDescribed(thisClass, ctCaveTileBehaviour, "mine", mineDesc, "putItemInfrontof", replace);
+                Util.instrumentDescribed(thisClass, ctCaveTileBehaviour, "flatten", flattenDesc, "putItemInfrontof", replace);
             }
 
             CtClass ctTileRockBehaviour = classPool.get("com.wurmonline.server.behaviours.TileRockBehaviour");
